@@ -1,36 +1,45 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createUser } from "../features/userDetailSlice";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { updateUser } from "../features/userDetailSlice";
 
-const Create = () => {
-  const [users, setUsers] = useState({});
-
-  const navigate = useNavigate();
+const Update = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [updateData, setUpdateData] = useState();
+  const { users, loading } = useSelector((state) => state.app);
 
-  const getUserData = (e) => {
-    setUsers({ ...users, [e.target.name]: e.target.value });
+  useEffect(() => {
+    if (id) {
+      const singleUser = users.filter((ele) => ele.id === id);
+      setUpdateData(singleUser[0]);
+    }
+  }, []);
+  console.log(updateData);
+
+  const newData = (e) => {
+    setUpdateData({ ...updateData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
-    // console.log("users..", users);
-    dispatch(createUser(users));
+    dispatch(updateUser(updateData));
     navigate("/read");
   };
 
   return (
     <div className="py-5">
-      <h2>Fill The Form</h2>
-      <form className="w-25 mx-auto my-5" onSubmit={handleSubmit}>
+      <h2>Update Details </h2>
+      <form className="w-25 mx-auto my-5" onSubmit={handleUpdate}>
         <div className="my-3 d-flex flex-column">
           <label className="form-label">Name</label>
           <input
             type="text"
             name="name"
             placeholder="Enter Name"
-            onChange={getUserData}
+            value={updateData?.name || ""}
+            onChange={newData}
             className="form-control"
           />
         </div>
@@ -40,7 +49,8 @@ const Create = () => {
             type="email"
             name="email"
             placeholder="Enter Email"
-            onChange={getUserData}
+            value={updateData?.email || ""}
+            onChange={newData}
             className="form-control"
           />
         </div>
@@ -50,7 +60,8 @@ const Create = () => {
             type="number"
             name="age"
             placeholder="Enter Age"
-            onChange={getUserData}
+            value={updateData?.age || ""}
+            onChange={newData}
             className="form-control"
           />
         </div>
@@ -60,21 +71,23 @@ const Create = () => {
             <input
               type="radio"
               name="gender"
-              // checked={getUserData.gender === "Female"}
+              checked={updateData && updateData?.gender === "Male"}
               value="Male"
-              onChange={getUserData}
+              onChange={newData}
               className="form-check-input"
+              readOnly
             />
-            <label className="form-check-label">Male</label>
+            <label>Male</label>
             <input
               type="radio"
               name="gender"
-              // checked={this.state.selectedOption === "Female"}
+              checked={updateData && updateData?.gender === "Female"}
               value="Female"
-              onChange={getUserData}
+              onChange={newData}
               className="form-check-input"
+              readOnly
             />
-            <label className="form-check-label">Famale</label>
+            <label>Famale</label>
           </div>
         </div>
         <div>
@@ -87,4 +100,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Update;

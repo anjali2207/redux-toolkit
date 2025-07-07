@@ -1,16 +1,22 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { searchUser } from "../features/userDetailSlice";
 
 const Navbar = () => {
- 
-  const totalCount = useSelector((state) => state.app.users)
+  const totalCount = useSelector((state) => state.app.users);
+  const dispatch = useDispatch();
+  const [searchData, setSearchData] = useState("");
+
+  useEffect(() => {
+    dispatch(searchUser(searchData));
+  }, [searchData]);
 
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <Link to="#" className="navbar-brand" >
+          <Link to="#" className="navbar-brand">
             Navbar
           </Link>
 
@@ -26,8 +32,7 @@ const Navbar = () => {
               </li>
               <li className="nav-item">
                 <Link to="/read" className="nav-link">
-                  All Post
-                  ({totalCount.length})
+                  All Post ({totalCount.length})
                 </Link>
               </li>
             </ul>
@@ -37,10 +42,10 @@ const Navbar = () => {
               type="search"
               placeholder="Search"
               aria-label="Search"
-              // value={searchData}
-              // onChange={(e) =>
-              //   dispatch(searchUser(setSearchData(e.target.value)))
-              // }
+              // va  lue={searchData}
+              onChange={(e) =>
+                dispatch(searchUser(setSearchData(e.target.value)))
+              }
             />
 
             {/* </form> */}
