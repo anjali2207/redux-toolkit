@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createUser } from "../features/userDetailSlice";
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
   const [users, setUsers] = useState({});
+
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const getUserData = (e) => {
@@ -14,13 +17,14 @@ const Create = () => {
     e.preventDefault();
     // console.log("users..", users);
     dispatch(createUser(users));
+    navigate("/read");
   };
 
   return (
-    <div className="py-4">
-        <h2>Fill The Form</h2>
+    <div className="py-5">
+      <h2>Fill The Form</h2>
       <form className="w-25 mx-auto my-5" onSubmit={handleSubmit}>
-        <div className="my-5 d-flex flex-column">
+        <div className="my-3 d-flex flex-column">
           <label className="form-label">Name</label>
           <input
             type="text"
@@ -59,7 +63,7 @@ const Create = () => {
               // checked={getUserData.gender === "Female"}
               value="Male"
               onChange={getUserData}
-                className="form-check-input"
+              className="form-check-input"
             />
             <label>Male</label>
             <input
@@ -68,7 +72,7 @@ const Create = () => {
               // checked={this.state.selectedOption === "Female"}
               value="Female"
               onChange={getUserData}
-                className="form-check-input"
+              className="form-check-input"
             />
             <label>Famale</label>
           </div>

@@ -1,44 +1,39 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+ 
+  const totalCount = useSelector((state) => state.app.users)
+
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <Link to="#" className="navbar-brand" >
             Navbar
-          </a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+          </Link>
+
           <div
-            class="collapse navbar-collapse d-flex justify-content-between"
+            className="collapse navbar-collapse d-flex justify-content-between"
             id="navbarNav"
           >
-            <ul class="navbar-nav d-flex gap-3">
-              <li class="nav-item">
-                {/* <Link to="/create" class="nav-link"> */}
-                Create Post
-                {/* </Link> */}
+            <ul className="navbar-nav d-flex gap-3">
+              <li className="nav-item">
+                <Link to="/" className="nav-link">
+                  Create Post
+                </Link>
               </li>
-              <li class="nav-item">
-                {/* <Link to="/" class="nav-link"> */}
-                All Post
-                {/* ({totalCount.length}) */}
-                {/* </Link> */}
+              <li className="nav-item">
+                <Link to="/read" className="nav-link">
+                  All Post
+                  ({totalCount.length})
+                </Link>
               </li>
             </ul>
-            {/* <form class="d-flex"> */}
+            {/* <form className="d-flex"> */}
             <input
-              class="form-control me-2 w-50"
+              className="form-control me-2 w-50"
               type="search"
               placeholder="Search"
               aria-label="Search"
